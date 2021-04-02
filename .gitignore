@@ -7,6 +7,5 @@
 *.d
 
 #ignore folders for binaries and dependencies
-build/*
 obj/
 dep/
