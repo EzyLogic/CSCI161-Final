@@ -1,7 +1,12 @@
-*.[oa]
-*~
-*.class
-*.ps
-core
-*.core
-a.out
+
+# ignore configuration from VScode
+.vscode
+
+# ignore anything that is an object or dependency file
+*.o
+*.d
+
+#ignore folders for binaries and dependencies
+build/app
+obj/
+dep/
