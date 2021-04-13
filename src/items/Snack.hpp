@@ -3,7 +3,7 @@
 #include <string>
 
 // forward declare
-class Manager;
+class Archer;
 
 
 class Snack
@@ -16,5 +16,5 @@ public:
 
 	Snack(std::string, int);
 
-	friend class Manager;
+	friend class Archer;
 };

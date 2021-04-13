@@ -49,7 +49,7 @@ std::vector<std::string>& Narrator::split(std::string paragraph)
         k++;
         copy->push_back(std::string(""));
         if(!in.eof()) copy->at(k).append(word);
-        total_length = 0 + word.length();
+        total_length = word.length();
     }
     copy->push_back(std::string(press_N));
 

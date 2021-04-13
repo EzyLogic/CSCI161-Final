@@ -10,8 +10,8 @@
 
 #include "utility.hpp"
 #include "Player.hpp"
-#include "Manager.hpp"
-#include "Clerk.hpp"
+#include "Archer.hpp"
+#include "Warrior.hpp"
 #include "Monster.hpp"
 #include "Alien.hpp"
 #include "Point.hpp"

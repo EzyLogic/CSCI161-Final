@@ -72,7 +72,7 @@ void Game::setup()
 	args->shapes.push_back(
 		new Circle(
 			Point( 50, 20 ),
-			7
+			4
 		)
 	);
 	
@@ -88,8 +88,8 @@ void Game::setup()
 	char choice = prompt_user(
 		std::vector<std::string>{{
 			"Select which type of person to play as:",
-			"1) Manager",
-			"2) Clerk"
+			"1) Archer",
+			"2) Warrior"
 		}}
 	);
 
@@ -100,16 +100,16 @@ void Game::setup()
 	switch(choice)
 	{
 		case KEY_1:
-			args->plyr = new Manager(100, 30.5, 15.0);
+			args->plyr = new Archer();
 			player_description = std::string(
-				"You chose to be a manager!"
+				"You chose to be a Archer!"
 			);
 			break;
-		case KEY_2: // if no user input validation, default to clerk
+		case KEY_2: // if no user input validation, default to Warrior
 		default:
-			args->plyr = new Clerk(120, 20.0, 12.5);
+			args->plyr = new Warrior();
 			player_description = std::string(
-				"You chose to be a clerk!"
+				"You chose to be a Warrior!"
 			);
 			break;
 	}

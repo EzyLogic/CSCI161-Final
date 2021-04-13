@@ -4,7 +4,7 @@
 #include <list>
 #include <iostream>
 #include "Player.hpp"
-#include "Clerk.hpp"
+#include "Warrior.hpp"
 #include "Shape.hpp"
 
 struct arguments
@@ -17,7 +17,7 @@ struct arguments
 	bool pause_animation = false;
 
 	// game data
-	Player *plyr = new Clerk(1, 0, 0); // before the user chooses a type of Player
+	Player *plyr = new Warrior(); // before the user chooses a type of Player
 	std::list<Shape*> shapes;
 	char keypress;
 
