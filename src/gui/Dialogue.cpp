@@ -1,63 +1,37 @@
 #include "Dialogue.hpp"
 
 Dialogue::~Dialogue()
-{ delete [] message; }
+{}
 
 
-Dialogue::Dialogue(Point centre, const char **lines, int n) :
+Dialogue::Dialogue(Point centre, std::vector<std::string> lines) :
 	Box(centre)
 {
-	this->n = n;
-	message = new std::string[n];
-	
-	for (int i = 0; i < n; i++)
-		message[i] = std::string(lines[i]);
-	
-	int line_no = 0;
-	int w = 4;
-	for (int i = 0; i < n; i++)
-	{
-		if (message[i].length() > (long unsigned int)(w-4)) {
-			line_no = i;
-			w = message[i].length() + 4;
-		}
-	}
-	
-	if (w > Panel::get_width()) 
-		throw MessageWidthException(
-			"The Dialogue message has line " +
-			 std::to_string(line_no) +
-			" with " +
-			std::to_string(message[line_no].length()) +
-			" > " +
-			std::to_string(Panel::get_width() - 4) +
-			" characters (the width of the panel).",
-			message,
-			n
-		);
-	
-	//deallocate the strings passed in
-	delete [] lines;
+	message.swap(lines);
+
+	if ((int)message.size() > Panel::get_height() - 4)
+	    throw MessageHeightException(
+	            "The Dialogue message has " +
+	            std::to_string(message.size()) +
+                " number of lines " +
+                " > " +
+                std::to_string(Panel::get_height() - 4) +
+                " lines (the height of the panel).",
+                message
+        );
 }
 
 
 Dialogue::Dialogue(Dialogue &other) :
 	Box(other.centre)
 {
-	n = other.n;
-	message = new std::string[n];
-	for (int i = 0; i < n; i++)
-		message[i] = std::string(other.message[i]);
-
+    message = std::vector<std::string>(other.message);
 }
 
 Dialogue::Dialogue(Dialogue &&other) :
 	Box(other.centre)
 {
-	n = other.n;
-	other.n = 0;
-	message = other.message;
-	other.message = nullptr;
+	message = std::move(other.message);
 }
 
 void Dialogue::update()
@@ -65,6 +39,7 @@ void Dialogue::update()
 
 void Dialogue::draw()
 {
+    int n = message.size();
 	int h = n + 4;
 	int w = 4;
 	for (int i = 0; i < n; i++)
@@ -80,7 +55,7 @@ void Dialogue::draw()
 
 	for (int i = 0; i < 3; i++)
 	{
-		parent->draw(points[i], points[i+1], stroke);;
+		parent->draw(points[i], points[i+1], stroke);
 	}
 	parent->draw(points[0], points[3], stroke);
 

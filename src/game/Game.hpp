@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
+#include <vector>
 
 #include "utility.hpp"
 #include "Player.hpp"
@@ -16,7 +17,7 @@
 #include "Point.hpp"
 #include "Circle.hpp"
 #include "Dialogue.hpp"
-#include "MessageWidthException.hpp"
+#include "MessageHeightException.hpp"
 #include "Narrator.hpp"
 
 class Game
@@ -54,8 +55,7 @@ private:
 	void get_input();
 
 	void display_message(
-		const char**, 
-		int,
+		std::vector<std::string> = std::vector<std::string>(),
 		// default point is at centre of panel
 		Point = Point(Panel::get_width()/2, Panel::get_height()/2)
 	);
@@ -79,13 +79,12 @@ public:
 	void pause();
 	
 	// to display return descriptions of Player and Monster functions, etc.
-	void dispaly_result(Dialogue*);
+	void display_result(Dialogue*);
 	
 	// ask the user to enter a one-keypress choice
 	char prompt_user(
 		// you can assign default values to parameters, so you do not have to give arguments in a call
-		const char** = nullptr,
-		int = 1,
+		std::vector<std::string> = std::vector<std::string>{{std::string(">>> press any key to continue <<<")}},
 		Point = Point(Panel::get_width()/2, 4)
 	);
 

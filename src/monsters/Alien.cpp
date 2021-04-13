@@ -11,11 +11,10 @@ Dialogue *Alien::attack(Player &plyr)
 		plyr.damage(30);
 		return new Dialogue(
 			Point(30, 18),
-			new const char*[2]{
+			std::vector<std::string>{{
 				"The alien glows and unleases a pulse wave!",
 				"---you take 30 damage---"
-			},
-			2
+			}}
 		);
 	}
 
@@ -29,11 +28,10 @@ Dialogue *Alien::attack(Player &plyr)
 
 	return new Dialogue(
 		Point(30, 18),
-		new const char*[2]{
+		std::vector<std::string>{{
 			"The alien uses telekenesis and throws debris at you!",
-			info.c_str()
-		},
-		2
+			info
+		}}
 	);
 }
 

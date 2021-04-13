@@ -19,12 +19,11 @@ Dialogue *Clerk::defend()
 	health += 20;
 	return new Dialogue(
 		Point(30, 7),
-		new const char*[3]{
+		std::vector<std::string>{{
 			"You did what diligent employees do best,",
 			"and took a break to rest!",
 			"---your health increased by 20 points---"
-		},
-		3
+		}}
 	);
 }
 
@@ -35,7 +34,7 @@ Dialogue *Clerk::attack(Monster &mnstr)
 
 	mnstr.damage(amount);
 
-	const char *result[3]{
+    const char *result[3]{
 		"The alien bleeds a prick of green blood.",
 		"The alien screams in shock.",
 		"This alien does not seem to be bothered."
@@ -49,12 +48,11 @@ Dialogue *Clerk::attack(Monster &mnstr)
 
 	return new Dialogue(
 		Point(30, 7),
-		new const char*[3]{
+        std::vector<std::string>{{
 			"Using your trusty nametag pin, you stab the alien!,",
 			result[rand() % 3],
-			info.c_str()
-		},
-		3
+			info
+		}}
 	);
 }
 
@@ -63,10 +61,9 @@ Dialogue *Clerk::eat(Snack &snack)
 {
 	return new Dialogue(
 		Point(30, 6),
-		new const char*[1]{
+        std::vector<std::string>{{
 			"Sorry, the clerk does not like to snack."
-		},
-		1
+		}}
 	);
 }
 
@@ -90,14 +87,13 @@ Dialogue *Clerk::super_power(Monster &mnstr)
 		
 	return new Dialogue(
 		Point(30,9),
-		new const char*[5]{
+        std::vector<std::string>{{
 			"You raise your hands...,",
 			"They begin to glow with fire...",
 			"You blast a fireball from your hands at the alien!",
-			result[rand() % 2].c_str(),
-			info.c_str()
-		},
-		5
+			result[rand() % 2],
+			info
+		}}
 	);
 }
 

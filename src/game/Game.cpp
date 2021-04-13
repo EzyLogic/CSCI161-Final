@@ -22,8 +22,7 @@ void Game::loop()
 		{
 			// prompt_user will also pause animation to wait for user input
 			prompt_user(
-				narrator.narrate(), //
-				narrator.get_no_lines()
+				narrator.narrate()
 			);
 			story_action = false;
 		}
@@ -80,21 +79,18 @@ void Game::setup()
 	// an example of how you could design a function in your game to do things for you
 	prompt_user(
 		/* deallocated at the end of the Dialogue constructor if no exceptions are thrown! */
-		new const char*[3]{
+		std::vector<std::string>{{
 			"Welcome to an Amazing Text Adventure Game!",
-			"*** press N to continue ***",
-			"This is an example of a line that is way too long to display and should instead be broken up into multiple lines."
-		},
-		3
+			std::string("*** press N to continue ***")
+		}}
 	);
 
 	char choice = prompt_user(
-		new const char*[3]{
+		std::vector<std::string>{{
 			"Select which type of person to play as:",
 			"1) Manager",
 			"2) Clerk"
-		},
-		3
+		}}
 	);
 
 	std::string player_description;
@@ -120,12 +116,11 @@ void Game::setup()
 	lck.unlock();
 
 	prompt_user(
-		new const char*[3]{
-			player_description.c_str(),
+		std::vector<std::string>{{
+			player_description,
 			"",
-			press_N.c_str()
-		},
-		3
+			press_N
+		}}
 	);
 
 }
@@ -151,13 +146,12 @@ void Game::random_battle()
 	}
 
 	prompt_user(
-		new const char*[4]{
+        std::vector<std::string>{{
 			"Congratulations!",
 			"You defeated all the monsters!",
 			"",
-			press_N.c_str()
-		},
-		4
+			press_N
+		}}
 	);
 
 	// continue with next chapter of the story
@@ -187,30 +181,28 @@ void Game::battle_info(std::list<Monster*> &monsters)
 	if (monsters.size() == 2)
 	{
 		prompt_user(
-			new const char*[7]{
-				num_of_monsters.c_str(),
-				mnstr_info1.c_str(),
-				mnstr_info2.c_str(),
+            std::vector<std::string>{{
+				num_of_monsters,
+				mnstr_info1,
+				mnstr_info2,
 				"",
-				plyr_info.c_str(),
+				plyr_info,
 				"",
-				press_N.c_str()
-			},
-			7
+				press_N
+			}}
 		);
 	}
 	else
 	{
 		prompt_user(
-			new const char*[6]{
-				num_of_monsters.c_str(),
-				mnstr_info1.c_str(),
+            std::vector<std::string>{{
+				num_of_monsters,
+				mnstr_info1,
 				"",
-				plyr_info.c_str(),
+				plyr_info,
 				"",
-				press_N.c_str(),
-			},
-			6
+				press_N,
+			}}
 		);
 	}
 }
@@ -219,14 +211,13 @@ void Game::battle_info(std::list<Monster*> &monsters)
 void Game::player_action(std::list<Monster*> &monsters)
 {
 	char choice = prompt_user(
-		new const char*[5]{
+		std::vector<std::string>{{
 			"What do you choose to do:",
 			"1) Defend",
 			"2) Attack",
 			"3) Eat a snack",
 			"4) Use your super power!"
-		},
-		5
+		}}
 	);
 
 	lck.lock();
@@ -250,8 +241,8 @@ void Game::player_action(std::list<Monster*> &monsters)
 			break;
 	}
 	lck.unlock();
-	
-	dispaly_result(result); // result memory is moved and deallocated once displayed
+
+    display_result(result); // result memory is moved and deallocated once displayed
 }
 
 
@@ -260,7 +251,7 @@ void Game::monster_action(std::list<Monster*> &monsters)
 	for (Monster *mnstr : monsters)
 	{
 		Dialogue *result = mnstr->attack(*args->plyr);
-		dispaly_result(result);
+		display_result(result);
 	}
 }
 
@@ -271,7 +262,7 @@ void Game::pause()
 { prompt_user(); }
 
 
-void Game::dispaly_result(Dialogue *dialogue)
+void Game::display_result(Dialogue *dialogue)
 {
 	args->shapes.push_back(dialogue);
 
@@ -291,27 +282,11 @@ void Game::dispaly_result(Dialogue *dialogue)
 }
 
 
-char Game::prompt_user(const char** prompt, int n, Point centre)
+char Game::prompt_user(std::vector<std::string> prompt, Point centre)
 {
-	// default behaviour
-	if (prompt == nullptr)
-	{
-		display_message(
-			new const char*[1]{
-				press_N.c_str()
-			},
-			1,
-			Point(Panel::get_width()/2, 4)
-		);
-	}
-	else
-	{
-		// non-default behaviour where prompt has a list of numbered options for the user to choose among
-		display_message(
-			prompt,
-			n
-		);
-	}
+    display_message(
+        prompt
+    );
 
 	lck.lock();
 	args->pause_animation = true;
@@ -351,38 +326,31 @@ void Game::get_input()
 }
 
 
-void Game::display_message(const char **message, int n, Point centre)
+void Game::display_message(std::vector<std::string> message, Point centre)
 {
 	try
 	{
 		args->shapes.push_back(
 			new Dialogue(
 				centre, /* centre of panel */
-				message,
-				n
+				message
 			)
 		);
 	}
-	catch (MessageWidthException &e)
+	catch (MessageHeightException &e)
 	{
 		//std::cout << "ERROR: " << e.what() << std::endl;
 		// Recovering from error by setting a new message.
-		std::string *message = e.get_message();
-		int n = e.get_no_lines();
-		const char **msg_copy = new const char*[n];
-		for (int i = 0; i < n; i++)
-			msg_copy[i] = message[i].c_str();
-		for (int i = 0; i < n; i++)
-		{
-			if ((int)message[i].length() > Panel::get_width() - 4)
-				msg_copy[i] = "ERROR: This was a line that was too long.";
-		}
+		std::vector<std::string> message = e.get_message();
+		while ((int)message.size() > Panel::get_height() - 5)
+            message.pop_back();
+
+		message.push_back("ERROR: This message is too high.");
 		
 		args->shapes.push_back(
 			new Dialogue(
 				centre,
-				msg_copy,
-				n
+				message
 			)
 		);
 	}

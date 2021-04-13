@@ -1,22 +1,22 @@
 #pragma once
 
+#include <vector>
 #include <iostream>
 #include <string>
 #include "Point.hpp"
 #include "Box.hpp"
-#include "MessageWidthException.hpp"
+#include "MessageHeightException.hpp"
 
 class Dialogue : public Box
 {
 
-	int n;
-	std::string *message;
+	std::vector<std::string> message;
 
 	Point* corner_points(int, int);
 
 public:
 
-	Dialogue(Point, const char**, int);
+	Dialogue(Point, std::vector<std::string>);
 	Dialogue(Dialogue&);
 	Dialogue(Dialogue&&);
 	~Dialogue();

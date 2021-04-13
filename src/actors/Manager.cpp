@@ -23,22 +23,20 @@ Dialogue *Manager::eat(Snack &snack)
 		
 		return new Dialogue(
 			Point(30, 7),
-			new const char*[3]{
+            std::vector<std::string>{{
 				"As a manager, your hunger is insatiable,",
-				description.c_str(),
-				info.c_str()
-			},
-			3
+				description,
+				info
+			}}
 		);
 	}
 	
 	return new Dialogue(
 		Point(30, 7),
-		new const char*[2]{
+        std::vector<std::string>{{
 			"Sorry, you have already eaten your snack.",
 			"You will have to let your stomach growl loudly!"
-		},
-		2
+		}}
 	);
 }
 
@@ -54,12 +52,11 @@ Dialogue *Manager::defend()
 	health += 10;
 	return new Dialogue(
 		Point(30, 7),
-		new const char*[3]{
+        std::vector<std::string>{{
 			"You do not have a snack,",
 			"so your manager-sized hunger growls!",
 			"---your health only increased by 10 points---"
-		},
-		3
+		}}
 	);
 }
 
@@ -69,10 +66,9 @@ Dialogue *Manager::attack(Monster &mnstr)
 	mnstr.damage(5);
 	return new Dialogue(
 		Point(30, 5),
-		new const char*[1]{
+        std::vector<std::string>{{
 			"You are a manager, and dealt 5 damage to one monster."
-		},
-		1
+		}}
 	);
 }
 
@@ -80,9 +76,8 @@ Dialogue *Manager::super_power(Monster &mnstr)
 {
 	return new Dialogue(
 		Point(30, 5),
-		new const char*[1]{
+        std::vector<std::string>{{
 			"A manager only dreams of having super powers..."
-		},
-		1
+		}}
 	);
 }

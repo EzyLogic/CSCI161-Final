@@ -1,25 +1,30 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <cmath>
+#include <cstring>
+#include <fstream>
+#include <sstream>
 
 class Narrator 
 {
 
 	static int current_chapter;
 
+	static const std::string filename;
+	static const int MAX_LINE_WIDTH = 55;
 	static const int MAX_CHAPTERS = 3;	
-	static const char*** story;
-	static const int no_lines[MAX_CHAPTERS];
+	static std::string* story;
 	
 	static std::string press_N;
 
+    std::vector<std::string>& split(std::string);
+
 public:
 
-	Narrator() {}
+	Narrator();
 
-	const char** narrate();
-	int get_no_lines();
-
-	// writing a function to split up a string into an array of strings for you will save you a lot of work...
+	std::vector<std::string> narrate();
 
 };

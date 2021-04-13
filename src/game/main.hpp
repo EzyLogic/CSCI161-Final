@@ -13,7 +13,7 @@
 #include "Game.hpp"
 #include "Window.hpp"
 #include "InputManager.hpp"
-#include "MessageWidthException.hpp"
+#include "MessageHeightException.hpp"
 
 // thread function prototypes
 void play(std::shared_ptr<arguments>);

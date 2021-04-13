@@ -1,6 +1,8 @@
 #pragma once
 
 #include <random>
+#include <vector>
+#include <string>
 #include "Player.hpp"
 #include "Monster.hpp"
 #include "Door.hpp"

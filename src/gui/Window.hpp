@@ -8,7 +8,7 @@
 
 #include "utility.hpp"
 #include "Panel.hpp"
-#include "MessageWidthException.hpp"
+#include "MessageHeightException.hpp"
 
 class Window
 {
