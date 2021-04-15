@@ -21,7 +21,7 @@ Dialogue *Warrior::defend()
 		std::vector<std::string>{{
 			"You use your holy shield to block an attack,",
 			"you suddenly feel better than ever.",
-			"---your health increased by 20 points---"
+			"---Your health increased by 20 points---"
 		}}
 	);
 }

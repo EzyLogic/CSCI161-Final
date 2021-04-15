@@ -9,12 +9,10 @@ Dialogue *Archer::eat(Snack &snack)
 		health += 40 + snack.health_bonus;
 
 		std::string description = 
-			"so you scarf down that " +
-			snack.name +
-			"!";
+			"You eat the " + snack.name + " that you foraged.";
 
 		std::string info = 
-			"---your health increased by " +
+			"---Your health increased by " +
 			std::to_string(40 + snack.health_bonus) +
 			" points---";
 
@@ -23,7 +21,6 @@ Dialogue *Archer::eat(Snack &snack)
 		return new Dialogue(
 			Point(30, 7),
             std::vector<std::string>{{
-				"As a Archer, your hunger is insatiable,",
 				description,
 				info
 			}}
@@ -31,9 +28,11 @@ Dialogue *Archer::eat(Snack &snack)
 	}
 	
 	return new Dialogue(
-		Point(30, 5),
+		Point(30, 7),
         std::vector<std::string>{{
-			"Sorry, you have already eaten your snack."
+			"Good job you wasted your time looking",
+			"for food and found none.",
+			"Could've killed something instead :/"
 		}}
 	);
 }
@@ -41,19 +40,14 @@ Dialogue *Archer::eat(Snack &snack)
 
 Dialogue *Archer::defend()
 {
-	if (has_snack)
-	{
-		Snack snack("granola bar", 10);
-		return eat(snack);
-	}
-	
 	health += 10;
 	return new Dialogue(
 		Point(30, 7),
         std::vector<std::string>{{
-			"You do not have a snack,",
-			"so your Archer-sized hunger growls!",
-			"---your health only increased by 10 points---"
+			"You do some acrobatic stuff",
+			"and dodge thousands of arrows.",
+			"You think that you're pretty cool",
+			"---Your health increased by 10 points---"
 		}}
 	);
 }
@@ -80,7 +74,7 @@ Dialogue *Archer::attack(Monster &mnstr)
 
 Dialogue *Archer::super_power(Monster &mnstr)
 {
-    int amount = rand() % (int)speed + 10;
+    int amount = rand() % (int)speed + 100;
 
     mnstr.damage(amount);
 

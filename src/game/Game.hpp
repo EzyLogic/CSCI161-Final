@@ -7,13 +7,15 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <stdlib.h>
 
 #include "utility.hpp"
 #include "Player.hpp"
 #include "Archer.hpp"
 #include "Warrior.hpp"
 #include "Monster.hpp"
-#include "Alien.hpp"
+#include "Goblin.hpp"
+#include "Skeleton.hpp"
 #include "Point.hpp"
 #include "Circle.hpp"
 #include "Dialogue.hpp"

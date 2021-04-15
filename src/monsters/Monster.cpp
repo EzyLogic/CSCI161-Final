@@ -1,8 +1,9 @@
 #include "Monster.hpp"
 
-Monster::Monster(int health, double strength) :
+Monster::Monster(int health, double strength, std::string name) :
 	health(health),
-	strength(strength)
+	strength(strength),
+	name(name)
 {}
 
 void Monster::damage(int amount)

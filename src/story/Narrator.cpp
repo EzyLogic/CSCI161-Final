@@ -67,3 +67,10 @@ std::vector<std::string> Narrator::narrate()
 {
     return split( story[current_chapter] );
 }
+
+bool Narrator::theEnd()
+{
+    if(current_chapter >= MAX_CHAPTERS) return true;
+
+    return false;
+}

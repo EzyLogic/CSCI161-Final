@@ -27,5 +27,6 @@ public:
 	Narrator(char);
 
 	std::vector<std::string> narrate();
+	bool theEnd();
 
 };

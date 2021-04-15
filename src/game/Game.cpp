@@ -15,6 +15,7 @@ void Game::loop()
 	if(args->plyr->getRace() == "Human") race = 'h';
 	else if(args->plyr->getRace() == "Elf") race = 'e';
     Narrator narrator(race);
+    std::vector<std::string> end = { "You've completed all chapters!", "Congrats! Bye!" };
 	
 	story_action = true; // when false, let user interact with animations instead
 	while (!(args->done))
@@ -24,6 +25,11 @@ void Game::loop()
 
 		if (story_action)
 		{
+            if(narrator.theEnd() == true) {
+                prompt_user(end);
+                system("reset");
+                exit(EXIT_SUCCESS);
+            }
 			// prompt_user will also pause animation to wait for user input
 			prompt_user(
 				narrator.narrate()
@@ -177,8 +183,15 @@ char Game::userInput(std::vector<std::string> p, std::vector<int> c)
 void Game::random_battle()
 {
 	std::list<Monster*> monsters;
-	monsters.push_back(new Alien( rand() % 20 ));
-	monsters.push_back(new Alien( rand() % 30 ));
+	if(args->plyr->getRace() == "Human") {
+        monsters.push_back(new Goblin( rand() % 20 ));
+        monsters.push_back(new Goblin( rand() % 30 ));
+	} else if(args->plyr->getRace() == "Elf") {
+        monsters.push_back(new Skeleton( rand() % 20 ));
+        monsters.push_back(new Skeleton( rand() % 30 ));
+	}
+    std::string name = monsters.front()->getName();
+
 
 	while (monsters.size() > 0)
 	{
@@ -191,12 +204,21 @@ void Game::random_battle()
 			monsters.pop_front();
 			delete temp;
 		}
+		if(args->plyr->get_health() <= 0) {
+		    prompt_user(std::vector<std::string>{{
+		        "Oops you're dead!",
+		        "Better luck next time.",
+		        "Bye!"
+		        }}
+		    );
+            system("reset");
+		    exit(EXIT_SUCCESS);
+        }
 	}
 
 	prompt_user(
         std::vector<std::string>{{
-			"Congratulations!",
-			"You defeated all the monsters!",
+			"You defeated all the " + name + "s!",
 			"",
 			press_N
 		}}
@@ -211,14 +233,13 @@ void Game::battle_info(std::list<Monster*> &monsters)
 {
 	std::string num_of_monsters = 
 		"There are " + 
-		std::to_string(monsters.size()) +
-		" aliens.";
+		std::to_string(monsters.size()) + " " + monsters.front()->getName() + "(s)";
 	std::string mnstr_info1 =
-		"The first alien has " +
+		"The first " + monsters.front()->getName() + " has " +
 		std::to_string(monsters.front()->get_health()) +
 		" health.";
 	std::string mnstr_info2 =
-		"The second alien has " +
+		"The second " + monsters.front()->getName() + " has " +
 		std::to_string(monsters.back()->get_health()) +
 		" health.";
 	std::string plyr_info =
@@ -281,7 +302,7 @@ void Game::player_action(std::list<Monster*> &monsters)
 			break;
 		case KEY_3:
 		{// variable in scope of this case only by using braces to make a nested block
-			Snack snack("granola bar", 10);
+			Snack snack("Mushroom", 10);
 			result = args->plyr->eat(snack);
 		}
 			break;
