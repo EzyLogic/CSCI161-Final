@@ -11,6 +11,10 @@ Game::Game(std::shared_ptr<arguments> args) :
 void Game::loop()
 {
 	setup();
+	char race;
+	if(args->plyr->getRace() == "Human") race = 'h';
+	else if(args->plyr->getRace() == "Elf") race = 'e';
+    Narrator narrator(race);
 	
 	story_action = true; // when false, let user interact with animations instead
 	while (!(args->done))
@@ -91,27 +95,24 @@ void Game::setup()
     choices = {KEY_1, KEY_2};
 
     char choice = userInput(prompt, choices);
+    std::string race;
 
-    lck.lock();
-	//delete args->plyr;
-	//args->plyr = nullptr;
 	switch(choice)
 	{
 		case KEY_1:
-			//args->plyr = new Archer();
+			race = "Human";
 			player_description = std::string(
 				"Hello Human!"
 			);
 			break;
 		case KEY_2:
 		default:
-			//args->plyr = new Warrior();
+            race = "Elf";
 			player_description = std::string(
 				"Greetings Elf!"
 			);
 			break;
 	}
-	lck.unlock();
 
 	prompt_user(
 		std::vector<std::string>{{
@@ -134,14 +135,14 @@ void Game::setup()
 	switch(choice)
 	{
 		case KEY_1:
-			args->plyr = new Archer();
+			args->plyr = new Archer(race);
 			player_description = std::string(
 				"You chose to be a Archer!"
 			);
 			break;
 		case KEY_2: // if no user input validation, default to Warrior
 		default:
-			args->plyr = new Warrior();
+			args->plyr = new Warrior(race);
 			player_description = std::string(
 				"You chose to be a Warrior!"
 			);
@@ -163,17 +164,12 @@ void Game::setup()
 char Game::userInput(std::vector<std::string> p, std::vector<int> c)
 {
     char choice;
-
+    std::vector<std::string> wrong = { "That's not an option", "Please try again" };
     while(1) {
         choice = prompt_user(p);
         for(int i : c) if(choice == i) return choice;
 
-        prompt_user(
-		std::vector<std::string>{{
-			"That's not one of the options",
-            "Please try again"
-		}}
-	);
+        prompt_user(wrong);
     }
 }
 
@@ -262,15 +258,16 @@ void Game::battle_info(std::list<Monster*> &monsters)
 
 void Game::player_action(std::list<Monster*> &monsters)
 {
-	char choice = prompt_user(
-		std::vector<std::string>{{
-			"What do you choose to do:",
-			"1) Defend",
-			"2) Attack",
-			"3) Eat a snack",
-			"4) Use your class ability"
-		}}
-	);
+	prompt = std::vector<std::string>{
+        "What do you choose to do:",
+        "1) Defend",
+        "2) Attack",
+        "3) Eat a snack",
+        "4) Use your class ability"
+	};
+	choices = {KEY_1, KEY_2, KEY_3, KEY_4};
+
+	char choice = userInput(prompt, choices);
 
 	lck.lock();
 	Dialogue *result;
@@ -294,6 +291,7 @@ void Game::player_action(std::list<Monster*> &monsters)
 	}
 	lck.unlock();
 
+	prompt.clear();
     display_result(result); // result memory is moved and deallocated once displayed
 }
 

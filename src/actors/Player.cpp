@@ -1,9 +1,10 @@
 #include "Player.hpp"
 
-Player::Player(int health, double strength, double speed) :
+Player::Player(int health, double strength, double speed, std::string race) :
     health(health),
     strength(strength),
-    speed(speed)
+    speed(speed),
+    race(race)
 {}
 
 void Player::move(char dir)

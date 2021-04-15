@@ -1,6 +1,7 @@
 #include "Narrator.hpp"
 
-const std::string Narrator::filename = "src/story/story.txt";
+const std::string Narrator::humanFilename = "src/story/humanStory.txt";
+const std::string Narrator::elfFilename = "src/story/elfStory.txt";
 
 int Narrator::current_chapter = 0;
 
@@ -10,9 +11,13 @@ std::string Narrator::press_N = std::string(">>> press any key to continue <<<")
 //   To reuse, just make sure you pass a copy of the chapter into a Dialogue.
 std::string* Narrator::story = new std::string[Narrator::MAX_CHAPTERS];
 
-Narrator::Narrator()
+Narrator::Narrator(char race)
 {
-    std::ifstream in(filename);
+    std::string tempFilename;
+    if(race == 'h') tempFilename = humanFilename;
+    else if(race == 'e') tempFilename = elfFilename;
+
+    std::ifstream in(tempFilename);
     std::string word;
     for(int i = 0; i < MAX_CHAPTERS; ++i) {
         in >> word;

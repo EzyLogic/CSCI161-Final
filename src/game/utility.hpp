@@ -17,7 +17,7 @@ struct arguments
 	bool pause_animation = false;
 
 	// game data
-	Player *plyr = new Warrior(); // before the user chooses a type of Player
+	Player *plyr = new Warrior("Human"); // before the user chooses a type of Player
 	std::list<Shape*> shapes;
 	char keypress;
 

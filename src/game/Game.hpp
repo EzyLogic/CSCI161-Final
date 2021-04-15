@@ -26,7 +26,6 @@ private:
 
 	std::shared_ptr<arguments> args;
 	std::unique_lock<std::mutex> lck;
-	Narrator narrator;
 	bool story_action = false;
 	std::vector<std::string> prompt;
     std::vector<int> choices;

@@ -18,7 +18,7 @@ protected:
 
 public:
 
-	Archer();
+	Archer(std::string);
 
 	virtual Dialogue *defend();
 	virtual Dialogue *attack(Monster&);

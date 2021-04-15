@@ -1,6 +1,6 @@
 #include "Archer.hpp"
 
-Archer::Archer() : Player(100, 10.0, 15.0)
+Archer::Archer(std::string race) : Player(100, 10.0, 15.0, race)
 {}
 
 Dialogue *Archer::eat(Snack &snack)

@@ -21,19 +21,21 @@ protected:
 	int health;
 	double strength;
 	double speed;
+	std::string race;
 
 	Point location = Point(0, 0);
 	
 public:
 
 	Player();
-	Player(int, double, double);
+	Player(int, double, double, std::string);
 	virtual ~Player() {}
 
 	void move(char);
 	Point get_location() { return location; }
 	void damage(int);
 	int get_health() { return health; }
+	std::string getRace() { return race; }
 
 	virtual Dialogue *defend() = 0;
 	virtual Dialogue *attack(Monster&) = 0;

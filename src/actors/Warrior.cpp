@@ -1,6 +1,6 @@
 #include "Warrior.hpp"
 
-Warrior::Warrior() : Player(120, 15.0, 10.0)
+Warrior::Warrior(std::string race) : Player(120, 15.0, 10.0, race)
 {}
 
 void Warrior::set_key(Key &key)

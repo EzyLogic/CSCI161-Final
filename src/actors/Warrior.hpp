@@ -19,7 +19,7 @@ protected:
 
 public:
 
-	Warrior();
+	Warrior(std::string);
 	
 	void set_key(Key&);
 	void use_key_unlock(Door&);
