@@ -74,7 +74,7 @@ Dialogue *Archer::attack(Monster &mnstr)
 
 Dialogue *Archer::super_power(Monster &mnstr)
 {
-    int amount = rand() % (int)speed + 100;
+    int amount = rand() % (int)speed + 10;
 
     mnstr.damage(amount);
 

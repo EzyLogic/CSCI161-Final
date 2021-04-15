@@ -65,6 +65,7 @@ private:
 	);
 	
 	void remove_message();
+	void quitGame();
 
 public:
 

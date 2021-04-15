@@ -27,8 +27,8 @@ void Game::loop()
 		{
             if(narrator.theEnd() == true) {
                 prompt_user(end);
-                system("reset");
-                exit(EXIT_SUCCESS);
+                quitGame();
+                break;
             }
 			// prompt_user will also pause animation to wait for user input
 			prompt_user(
@@ -179,6 +179,11 @@ char Game::userInput(std::vector<std::string> p, std::vector<int> c)
     }
 }
 
+void Game::quitGame()
+{
+    args->done = true;
+    delete args->plyr;
+}
 
 void Game::random_battle()
 {
@@ -191,7 +196,6 @@ void Game::random_battle()
         monsters.push_back(new Skeleton( rand() % 30 ));
 	}
     std::string name = monsters.front()->getName();
-
 
 	while (monsters.size() > 0)
 	{
@@ -211,8 +215,7 @@ void Game::random_battle()
 		        "Bye!"
 		        }}
 		    );
-            system("reset");
-		    exit(EXIT_SUCCESS);
+            quitGame();
         }
 	}
 
