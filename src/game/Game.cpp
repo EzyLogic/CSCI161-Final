@@ -85,15 +85,49 @@ void Game::setup()
 		}}
 	);
 
-	char choice = prompt_user(
+	prompt = { "Select which race to play as:", "1) Human", "2) Elf" };
+
+    std::string player_description;
+    choices = {KEY_1, KEY_2};
+
+    char choice = userInput(prompt, choices);
+
+    lck.lock();
+	//delete args->plyr;
+	//args->plyr = nullptr;
+	switch(choice)
+	{
+		case KEY_1:
+			//args->plyr = new Archer();
+			player_description = std::string(
+				"Hello Human!"
+			);
+			break;
+		case KEY_2:
+		default:
+			//args->plyr = new Warrior();
+			player_description = std::string(
+				"Greetings Elf!"
+			);
+			break;
+	}
+	lck.unlock();
+
+	prompt_user(
 		std::vector<std::string>{{
-			"Select which type of person to play as:",
-			"1) Archer",
-			"2) Warrior"
+			player_description,
+			"",
+			press_N
 		}}
 	);
 
-	std::string player_description;
+	prompt = {
+        "Select which class to play as:",
+        "1) Archer",
+        "2) Warrior"
+	};
+	choice = userInput(prompt, choices);
+
 	lck.lock();
 	delete args->plyr;
 	args->plyr = nullptr;
@@ -122,7 +156,25 @@ void Game::setup()
 			press_N
 		}}
 	);
+    prompt.clear();
+    choices.clear();
+}
 
+char Game::userInput(std::vector<std::string> p, std::vector<int> c)
+{
+    char choice;
+
+    while(1) {
+        choice = prompt_user(p);
+        for(int i : c) if(choice == i) return choice;
+
+        prompt_user(
+		std::vector<std::string>{{
+			"That's not one of the options",
+            "Please try again"
+		}}
+	);
+    }
 }
 
 
@@ -216,7 +268,7 @@ void Game::player_action(std::list<Monster*> &monsters)
 			"1) Defend",
 			"2) Attack",
 			"3) Eat a snack",
-			"4) Use your super power!"
+			"4) Use your class ability"
 		}}
 	);
 

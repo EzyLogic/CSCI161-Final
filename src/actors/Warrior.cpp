@@ -1,6 +1,6 @@
 #include "Warrior.hpp"
 
-Warrior::Warrior() : Player(120, 20.0, 12.5)
+Warrior::Warrior() : Player(120, 15.0, 10.0)
 {}
 
 void Warrior::set_key(Key &key)
@@ -19,8 +19,8 @@ Dialogue *Warrior::defend()
 	return new Dialogue(
 		Point(30, 7),
 		std::vector<std::string>{{
-			"You did what diligent employees do best,",
-			"and took a break to rest!",
+			"You use your holy shield to block an attack,",
+			"you suddenly feel better than ever.",
 			"---your health increased by 20 points---"
 		}}
 	);
@@ -29,27 +29,18 @@ Dialogue *Warrior::defend()
 
 Dialogue *Warrior::attack(Monster &mnstr)
 {
-	int amount = rand() % (int)strength + 10;
+	int amount = rand() % (int)strength;
 
 	mnstr.damage(amount);
 
-    const char *result[3]{
-		"The alien bleeds a prick of green blood.",
-		"The alien screams in shock.",
-		"This alien does not seem to be bothered."
-	};
-
 	// if you want varialbe numbers to show up in a const char*
-	std::string info = 
-		"---the alien was dealt " +
-		std::to_string(amount) +
-		" damage---";
+	std::string info = "---The monster took " + std::to_string(amount) + " damage---";
 
 	return new Dialogue(
-		Point(30, 7),
+		Point(30, 5),
         std::vector<std::string>{{
-			"Using your trusty nametag pin, you stab the alien!,",
-			result[rand() % 3],
+			"You swing your sharpened sword at the monster,",
+			"slicing through their armour and skin like butter.",
 			info
 		}}
 	);
@@ -59,9 +50,9 @@ Dialogue *Warrior::attack(Monster &mnstr)
 Dialogue *Warrior::eat(Snack &snack)
 {
 	return new Dialogue(
-		Point(30, 6),
+		Point(30, 5),
         std::vector<std::string>{{
-			"Sorry, the Warrior does not like to snack."
+			"Warrior's don't eat unless the battle has been won."
 		}}
 	);
 }
@@ -69,28 +60,20 @@ Dialogue *Warrior::eat(Snack &snack)
 
 Dialogue *Warrior::super_power(Monster &mnstr)
 {
-	int amount = rand() % (int)strength*2 + (int)speed;
+	int amount = rand() % (int)strength*2 + 20;
 
-	mnstr.damage(amount);
-
-	std::string result[2]{
-		"Half of the alien is crusted with black scortches.",
-		"Screaming in horror, the alien falls to their knees."
-	};
+    health += amount;
 	
 	// if you want varialbe numbers to show up in a const char*
 	std::string info = 
-		"---the alien was dealt " +
+		"---Your health increased by " +
 		std::to_string(amount) +
-		" damage---";
+		" points---";
 		
 	return new Dialogue(
-		Point(30,9),
+		Point(30,5),
         std::vector<std::string>{{
-			"You raise your hands...,",
-			"They begin to glow with fire...",
-			"You blast a fireball from your hands at the alien!",
-			result[rand() % 2],
+			"You get angry and strengthen your resolve.",
 			info
 		}}
 	);

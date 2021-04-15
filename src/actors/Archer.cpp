@@ -1,6 +1,6 @@
 #include "Archer.hpp"
 
-Archer::Archer() : Player(100, 30.5, 15.0)
+Archer::Archer() : Player(100, 10.0, 15.0)
 {}
 
 Dialogue *Archer::eat(Snack &snack)
@@ -31,10 +31,9 @@ Dialogue *Archer::eat(Snack &snack)
 	}
 	
 	return new Dialogue(
-		Point(30, 7),
+		Point(30, 5),
         std::vector<std::string>{{
-			"Sorry, you have already eaten your snack.",
-			"You will have to let your stomach growl loudly!"
+			"Sorry, you have already eaten your snack."
 		}}
 	);
 }
@@ -62,21 +61,37 @@ Dialogue *Archer::defend()
 
 Dialogue *Archer::attack(Monster &mnstr)
 {
-	mnstr.damage(5);
-	return new Dialogue(
-		Point(30, 5),
+    int amount = rand() % (int)strength;
+
+    mnstr.damage(amount);
+
+    // if you want varialbe numbers to show up in a const char*
+    std::string info = "---The monster took " + std::to_string(amount) + " damage---";
+
+    return new Dialogue(
+        Point(30, 5),
         std::vector<std::string>{{
-			"You are a Archer, and dealt 5 damage to one monster."
+        "You draw your bow and fire an arrow,",
+        "the arrow flies through the air and hits the monster.",
+        info
 		}}
 	);
 }
 
 Dialogue *Archer::super_power(Monster &mnstr)
 {
+    int amount = rand() % (int)speed + 10;
+
+    mnstr.damage(amount);
+
+    std::string info = "---The monster took " + std::to_string(amount) + " damage---";
+
 	return new Dialogue(
 		Point(30, 5),
         std::vector<std::string>{{
-			"A Archer only dreams of having super powers..."
+			"You give a command to your pet to attack the monster,",
+            "your pet bites the monster so you give them a treat.",
+            info
 		}}
 	);
 }

@@ -28,6 +28,8 @@ private:
 	std::unique_lock<std::mutex> lck;
 	Narrator narrator;
 	bool story_action = false;
+	std::vector<std::string> prompt;
+    std::vector<int> choices;
 
 	std::string press_N = std::string(">>> press any key to continue <<<");
 
@@ -53,6 +55,7 @@ private:
 	};
 
 	void get_input();
+	char userInput(std::vector<std::string>, std::vector<int>);
 
 	void display_message(
 		std::vector<std::string> = std::vector<std::string>(),
