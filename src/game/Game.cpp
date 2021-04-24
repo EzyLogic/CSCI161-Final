@@ -65,12 +65,17 @@ void Game::loop()
 		lck.lock();
 		args->keypress = 0;
 		lck.unlock();
+
+		// Added functions:
+		did_player_escape();
+		you_have_been_abducted();
 	}
 }
 
-
-void Game::setup()
-{
+/// --- Added function --- ///
+	// placing shapes
+void Game::setup_shapes() {
+	args->shapes.clear();
 	// examples of directly working with classes and objects
 	args->shapes.push_back(
 		new Circle(
@@ -78,13 +83,18 @@ void Game::setup()
 			3
 		)
 	);
-
 	args->shapes.push_back(
 		new Circle(
 			Point( 50, 20 ),
-			4
+			7
 		)
 	);
+}
+
+void Game::setup()
+{
+	// Added function:
+	setup_shapes();
 	
 	// an example of how you could design a function in your game to do things for you
 	prompt_user(
@@ -439,4 +449,47 @@ void Game::remove_message()
 	Shape *shape = args->shapes.back();
 	args->shapes.pop_back();
 	delete shape;
+}
+
+
+/// ---- Added Functions ---- ///
+/* 
+char Game::user_input(std::vector<std::string> menu, std::vector<int> value_range) {
+	char input;
+	std::vector<std::string> error_msg = {
+		"Error, incorrect input. Try again!"
+	};
+	while(1) {
+		input = prompt_user(menu);
+		input = tolower(input);
+		for ( int num : value_range ) {
+			if (input == num)
+				return input;
+		}
+		std::cin.clear();//clearing the flag
+		prompt_user(error_msg);
+	}	
+}
+ */
+
+void Game::did_player_escape() {
+	for(Shape *shape : args->shapes) {
+		if(args->plyr->get_escaped_collision() == true
+			&& shape->get_escaped() == true) {
+				setup_shapes();
+				args->plyr->set_escaped_collision_true();
+				break;
+			}
+	}
+}
+
+void Game::you_have_been_abducted() {
+	for(Shape *shape : args->shapes){
+		if(shape->get_print_message() == true) {
+			std::vector<std::string> temp = shape->get_message();
+			temp.push_back(press_N);
+			user_input(temp, all_keys);
+			shape->set_print_message_false();
+		}
+	}
 }

@@ -32,3 +32,16 @@ void Player::move(char dir)
 
 void Player::damage(int amount)
 { health -= amount; }
+
+// Added Functions:
+void Player::fill_backpack(Items item) {
+    backpack.push_back(item);
+}
+
+void Player::set_escaped_collision_true() {
+    this->escaped_collision = true;
+}
+
+void Player::set_escaped_collision_false() {
+    this->escaped_collision = false;
+}

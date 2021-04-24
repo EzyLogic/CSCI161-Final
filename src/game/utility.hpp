@@ -2,6 +2,7 @@
 
 #include <mutex>
 #include <list>
+include <vector>
 #include <iostream>
 #include "Player.hpp"
 #include "Warrior.hpp"
@@ -18,7 +19,9 @@ struct arguments
 
 	// game data
 	Player *plyr = new Warrior("Human"); // before the user chooses a type of Player
-	std::list<Shape*> shapes;
+
+	/// --- change shapes to vector from list --- ///
+	std::vector<Shape*> shapes;
 	char keypress;
 
 	arguments() {}

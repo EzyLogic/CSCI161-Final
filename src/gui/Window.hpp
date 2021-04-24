@@ -5,10 +5,14 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <vector>
 
 #include "utility.hpp"
 #include "Panel.hpp"
 #include "MessageHeightException.hpp"
+#include "Ships.hpp"
+#include "Circle.hpp"
+#include "Box.hpp"
 
 class Window
 {
@@ -25,4 +29,8 @@ public:
 	Window(std::shared_ptr<arguments>);
 	void activate();
 
+	// Added functions:
+	bool detect_shape_avatar_collision();
+	void check_for_collisions();
+	void setup_ships();
 };

@@ -20,4 +20,8 @@ public:
     virtual void update();
     virtual void draw();
 
+
+    // Added functions:
+    virtual double get_radius() { return radius; }
+    virtual std::vector<std::string> get_message() { return message; }
 };

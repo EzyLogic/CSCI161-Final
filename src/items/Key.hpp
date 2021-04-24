@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Door.hpp"
+#include "Items.hpp"
 
-class Key
+class Key : public Items
 {
 
 	int id;

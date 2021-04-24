@@ -16,3 +16,8 @@ void Door::close()
 
 bool Door::get_is_open()
 { return is_open; }
+
+// Added function:
+void Door::set_door_location(Point location) {
+	this->door_location = location;
+}

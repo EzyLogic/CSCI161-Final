@@ -1,11 +1,13 @@
 #pragma once
 
 #include <string>
+#icnlude <vector>
 
 #include "Monster.hpp"
 #include "Point.hpp"
 #include "Dialogue.hpp"
 #include "Snack.hpp"
+#include "Items.hpp"
 
 class Player
 {
@@ -24,6 +26,10 @@ protected:
 	std::string race;
 
 	Point location = Point(0, 0);
+
+	// Added functions:
+	std::vector<Items> backpack;
+	bool escaped_collision = true;
 	
 public:
 
@@ -42,4 +48,10 @@ public:
 	virtual Dialogue *eat(Snack&) = 0;
 	virtual Dialogue *super_power(Monster&) = 0;
 
+	// Added functions:
+	void fill_backpack(Items);
+	std::vector<Items> get_backpack() { return backpack; }
+	bool get_escaped_collision() { return escaped_collision; }
+	void set_escaped_collision_true();
+	void set_escaped_collision_false();
 };

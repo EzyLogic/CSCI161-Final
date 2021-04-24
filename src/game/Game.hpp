@@ -1,5 +1,5 @@
 #pragma once
-
+// Libraries
 #include <unistd.h>
 #include <mutex>
 #include <memory>
@@ -8,7 +8,9 @@
 #include <string>
 #include <vector>
 #include <stdlib.h>
-
+#include <ctype.h>// for tolower
+#include <cmath>
+// Headers:
 #include "utility.hpp"
 #include "Player.hpp"
 #include "Archer.hpp"
@@ -21,6 +23,7 @@
 #include "Dialogue.hpp"
 #include "MessageHeightException.hpp"
 #include "Narrator.hpp"
+#include "Ships.hpp"
 
 class Game
 {
@@ -93,4 +96,9 @@ public:
 		Point = Point(Panel::get_width()/2, 4)
 	);
 
+	// Added functions
+	//char user_input(std::vector<std::string> menu, std::vector<int> value);
+	void setup_shapes();
+	void did_player_escape();
+	void you_have_been_abducted();
 };
