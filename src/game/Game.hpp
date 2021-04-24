@@ -97,8 +97,7 @@ public:
 	);
 
 	// Added functions
-	//char user_input(std::vector<std::string> menu, std::vector<int> value);
 	void setup_shapes();
-	void did_player_escape();
-	void you_have_been_abducted();
+	bool did_player_escape();
+	bool you_have_been_abducted();
 };

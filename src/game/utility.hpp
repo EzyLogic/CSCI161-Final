@@ -2,7 +2,7 @@
 
 #include <mutex>
 #include <list>
-include <vector>
+#include <vector>
 #include <iostream>
 #include "Player.hpp"
 #include "Warrior.hpp"

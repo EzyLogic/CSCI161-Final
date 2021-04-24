@@ -2,10 +2,6 @@
 
 Shape::~Shape() {}
 
-void Shape::set_parent(Panel &parent)
-{ this->parent = &parent; }
-
-
 // Added functions:
 void Shape::set_parent(Panel &parent) {
    this->parent = &parent; }

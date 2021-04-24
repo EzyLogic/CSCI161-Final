@@ -32,7 +32,7 @@ class Ships : public Shape {
         Bomb bomb;
         Key key;
         static const int num_rooms = 4;
-        static const char HULL = '#';
+        static const char HULL = '=';
 
         std::vector<Point> room_locations;
         std::vector<Point> rand_locations;

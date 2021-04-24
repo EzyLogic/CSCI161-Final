@@ -1,6 +1,6 @@
 /*
  *Author: Timber Johnson
- *Partner: Brenden Grey
+ *Partner: Brenden Gray
  *Class: csci 161, assignment 3
  *Instructor: Dr. Russel Campbell
  *Purpose: To show class hierarchy and polymorphism

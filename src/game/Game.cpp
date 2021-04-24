@@ -18,12 +18,13 @@ void Game::loop()
     std::vector<std::string> end = { "You've completed all chapters!", "Congrats! Bye!" };
 	
 	story_action = true; // when false, let user interact with animations instead
+	bool abducted = false;
 	while (!(args->done))
 	{
 		// allows CPU to rest, and other threads to execute		
 		std::this_thread::sleep_for(std::chrono::milliseconds(16));
 
-		if (story_action)
+		if (story_action && !abducted)
 		{
             if(narrator.theEnd() == true) {
                 prompt_user(end);
@@ -41,7 +42,7 @@ void Game::loop()
 		// SEE END OF THIS LOOP TO DO SO WITH THREAD LOCKS
 		get_input(); // user can press WASD keys to move
 		
-		if (rand() % 20 == 10)
+		if ((rand() % 20 == 10) && !abducted)
 			random_battle();
 
 		// processing of args->keypress here
@@ -66,9 +67,8 @@ void Game::loop()
 		args->keypress = 0;
 		lck.unlock();
 
-		// Added functions:
-		did_player_escape();
-		you_have_been_abducted();
+        if(did_player_escape()) abducted = false;
+        if(you_have_been_abducted()) abducted = true;
 	}
 }
 
@@ -451,45 +451,31 @@ void Game::remove_message()
 	delete shape;
 }
 
-
-/// ---- Added Functions ---- ///
-/* 
-char Game::user_input(std::vector<std::string> menu, std::vector<int> value_range) {
-	char input;
-	std::vector<std::string> error_msg = {
-		"Error, incorrect input. Try again!"
-	};
-	while(1) {
-		input = prompt_user(menu);
-		input = tolower(input);
-		for ( int num : value_range ) {
-			if (input == num)
-				return input;
-		}
-		std::cin.clear();//clearing the flag
-		prompt_user(error_msg);
-	}	
-}
- */
-
-void Game::did_player_escape() {
+bool Game::did_player_escape() {
 	for(Shape *shape : args->shapes) {
 		if(args->plyr->get_escaped_collision() == true
 			&& shape->get_escaped() == true) {
 				setup_shapes();
 				args->plyr->set_escaped_collision_true();
-				break;
+                return true;
 			}
 	}
+	return false;
 }
 
-void Game::you_have_been_abducted() {
+bool Game::you_have_been_abducted() {
 	for(Shape *shape : args->shapes){
 		if(shape->get_print_message() == true) {
 			std::vector<std::string> temp = shape->get_message();
 			temp.push_back(press_N);
-			user_input(temp, all_keys);
+			prompt_user(
+                std::vector<std::string>{{
+				    temp
+			    }}
+		    );
 			shape->set_print_message_false();
+			return true;
 		}
 	}
+	return false;
 }

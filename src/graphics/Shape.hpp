@@ -35,8 +35,6 @@ public:
     {}
 
     virtual ~Shape() = 0;
-
-    void set_parent(Panel &parent);
     virtual void update() = 0;
     virtual void draw() = 0;
 
