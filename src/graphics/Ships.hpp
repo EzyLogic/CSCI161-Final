@@ -33,6 +33,7 @@ class Ships : public Shape {
         Key key;
         static const int num_rooms = 4;
         static const char HULL = '=';
+        unsigned int items_removed = 0;
 
         std::vector<Point> room_locations;
         std::vector<Point> rand_locations;

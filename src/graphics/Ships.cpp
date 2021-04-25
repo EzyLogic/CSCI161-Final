@@ -9,7 +9,8 @@
 #include "Player.hpp"
 
 Ships::Ships() :
-    Shape(centre, delta)
+    Shape(centre, delta),
+    bomb("bomb", 'B')
 {
     key.set_id(door);
     set_print_message_true();
@@ -18,16 +19,19 @@ Ships::Ships() :
     set_door_location();
     set_key_location();
     set_bomb_location();
-    bomb.set_appearance('B');
-    key.set_appearance('K');    
+    key.set_appearance('K');
+    this->message = std::vector<std::string> {
+					"You have been abducted.",
+					"Get to the key (K) to unlock",
+					"the door (D) to escape.", 
+					""
+    };    
 }
 
 void Ships::update() {
     /* 
      * There was much I wasn't able to finish. Wanted to have a collison 
      * detection funcstion for the HULL of the map using the char HULL for that.
-     * Wanted a message informing the player they should also collect the bomb
-     * and blow up ship to stop the invasion.
      */
     check_plyr_location_items();
     check_plyr_and_door_when_plyr_at_door();
@@ -172,12 +176,14 @@ void Ships::check_plyr_location_items() {
         key.set_appearance('o');
         key.unlock(door);
         door.open();// because there is no get_locked() function to open door.
+        items_removed++;
     }
     // note: ^= does the exact samething as above if. I left that above if
     // statement as is so you can see what is going on. See Point.cpp for more
     if(player->get_location() ^= bomb.get_location()) {
         player->fill_backpack(bomb);
         bomb.set_appearance('o');
+        items_removed++;
     }
 }
 
@@ -185,17 +191,37 @@ void Ships::check_plyr_and_door_when_plyr_at_door() {
     // Point didn't like && operator, so needed to nest some if's
     if(player->get_location() ^= door.get_door_location()) {
         if(door.get_is_open() == true){
+            this->message.clear();
+            this->message = std::vector<std::string> {
+                "You have unlocked the door."
+                "",
+                "Press (1) to escape.",
+                ""
+            };
+            // player->get_backpack() didn't like For Range loop
+            for(size_t i = 0; i < player->get_backpack().size(); i++) {
+                if(player->get_backpack().at(i).get_appearance() == bomb.get_appearance()) {
+                    // I don't know why. Using .pop_back() & .push_back()
+                    // resulted in segmentation faults
+                    this->message.clear();
+                    this->message = std::vector<std::string> {
+                        "You have unlocked the door.",
+                        "",
+                        "Press (1) to escape, or",
+                        "press (9) to iuse the bomb & escape.",
+                        ""
+                    };
+                    player->remove_last_item_from_backpack();
+                    items_removed--;
+                }
+            }
             set_escaped_true();
             player->set_escaped_collision_false();
+            player->remove_last_item_from_backpack();
+            items_removed--;
         }
     }
 }
 
 std::vector<std::string> Ships::get_message() {
-    return this->message = std::vector<std::string> {
-					"You have been abducted.",
-					"Get to the key (K) to unlock",
-					"the door (D) to escape.", 
-					""
-    };
-}
+    return this->message;   }
