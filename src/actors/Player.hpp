@@ -54,4 +54,5 @@ public:
 	bool get_escaped_collision() { return escaped_collision; }
 	void set_escaped_collision_true();
 	void set_escaped_collision_false();
+	void remove_last_item_from_backpack();
 };

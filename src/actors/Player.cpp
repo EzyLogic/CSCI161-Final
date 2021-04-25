@@ -45,3 +45,7 @@ void Player::set_escaped_collision_true() {
 void Player::set_escaped_collision_false() {
     this->escaped_collision = false;
 }
+
+void Player::remove_last_item_from_backpack() {
+    backpack.pop_back();
+}
