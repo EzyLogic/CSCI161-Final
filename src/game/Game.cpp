@@ -455,9 +455,38 @@ bool Game::did_player_escape() {
 	for(Shape *shape : args->shapes) {
 		if(args->plyr->get_escaped_collision() == true
 			&& shape->get_escaped() == true) {
-				setup_shapes();
-				args->plyr->set_escaped_collision_true();
-                return true;
+				char choice = prompt_user(
+					shape->get_message()//,
+					//std::vector<int> { { KEY_1, KEY_9} }
+				);
+				switch(choice) {
+					case KEY_1:
+						prompt_user(
+							std::vector<std::string> { {
+								"Congratulations, you escaped!",
+								"",
+								press_N
+							} }//,
+							//all_keys
+						);
+						setup_shapes();
+						args->plyr->set_escaped_collision_true();
+						break;
+					case KEY_9:
+						prompt_user(
+							std::vector<std::string> { {
+								"Congratulations, you escaped!",
+								"And you blow up the ship.",
+								"",
+								press_N
+							} }//,
+							//all_keys
+						);
+						setup_shapes();
+						args->plyr->set_escaped_collision_true();
+						break;
+				}
+            return true;
 			}
 	}
 	return false;
