@@ -20,6 +20,8 @@ private:
 
 	Panel panel;
 	std::shared_ptr<arguments> args;
+	int collisions = 0;
+	const int max_collisions = 2;
 	
 	void render_frame();
 	void play_frames();

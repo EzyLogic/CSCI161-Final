@@ -195,7 +195,7 @@ void Ships::check_plyr_and_door_when_plyr_at_door() {
                 "Press (1) to escape.",
                 ""
             };
-            if(bomb_removed == true) {
+            if(bomb_removed) {
                 // I don't know why. Using .pop_back() & .push_back()
                 // resulted in segmentation faults
                 this->message.clear();
@@ -209,7 +209,8 @@ void Ships::check_plyr_and_door_when_plyr_at_door() {
             }
             set_escaped_true();
             player->set_escaped_collision_false();
-        }      
+        }
+
     }
 }
 

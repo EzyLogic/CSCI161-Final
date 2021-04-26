@@ -75,8 +75,10 @@ void Window::check_for_collisions() {
 	detect_shape_avatar_collision();
 	for(Shape *shape : args->shapes) {
 		if (args->plyr->get_escaped_collision() == false
-			&& shape->get_escaped() == false) {
+			&& shape->get_escaped() == false
+			&& collisions < max_collisions) {
 			args->plyr->set_escaped_collision_true();
+			collisions++;
 			setup_ships();
 		}
 	}
