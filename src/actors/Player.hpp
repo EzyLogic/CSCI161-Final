@@ -55,4 +55,5 @@ public:
 	void set_escaped_collision_true();
 	void set_escaped_collision_false();
 	void remove_last_item_from_backpack();
+	void remove_items_from_backpack();
 };

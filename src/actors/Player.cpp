@@ -49,3 +49,7 @@ void Player::set_escaped_collision_false() {
 void Player::remove_last_item_from_backpack() {
     backpack.pop_back();
 }
+
+void Player::remove_items_from_backpack() {
+    backpack.clear();
+}
