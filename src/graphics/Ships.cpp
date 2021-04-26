@@ -207,9 +207,9 @@ void Ships::check_plyr_and_door_when_plyr_at_door() {
                     ""
                 };
             }
-        }
-        set_escaped_true();
-        player->set_escaped_collision_false();        
+            set_escaped_true();
+            player->set_escaped_collision_false();
+        }      
     }
 }
 
