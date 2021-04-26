@@ -203,7 +203,7 @@ void Ships::check_plyr_and_door_when_plyr_at_door() {
                     "You have unlocked the door.",
                     "",
                     "Press (1) to escape, or",
-                    "press (9) to iuse the bomb & escape.",
+                    "press (9) to use the bomb & escape.",
                     ""
                 };
             }
