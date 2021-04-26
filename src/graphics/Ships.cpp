@@ -172,18 +172,15 @@ void Ships::set_bomb_location() {
 void Ships::check_plyr_location_items() {
     if ((int)player->get_location().x == (int)key.get_location().x
         && (int)player->get_location().y == (int)key.get_location().y) {
-        player->fill_backpack(key);
-        key.set_appearance('o');
+        key.set_location(Point ( 0,0 ));
         key.unlock(door);
         door.open();// because there is no get_locked() function to open door.
-        items_removed++;
     }
     // note: ^= does the exact samething as above if. I left that above if
     // statement as is so you can see what is going on. See Point.cpp for more
     if(player->get_location() ^= bomb.get_location()) {
-        player->fill_backpack(bomb);
-        bomb.set_appearance('o');
-        items_removed++;
+        bomb.set_location(Point ( 0,0 ));
+        this->bomb_removed = true;
     }
 }
 
@@ -198,28 +195,21 @@ void Ships::check_plyr_and_door_when_plyr_at_door() {
                 "Press (1) to escape.",
                 ""
             };
-            // player->get_backpack() didn't like For Range loop
-            for(size_t i = 0; i < player->get_backpack().size(); i++) {
-                if(player->get_backpack().at(i).get_appearance() == bomb.get_appearance()) {
-                    // I don't know why. Using .pop_back() & .push_back()
-                    // resulted in segmentation faults
-                    this->message.clear();
-                    this->message = std::vector<std::string> {
-                        "You have unlocked the door.",
-                        "",
-                        "Press (1) to escape, or",
-                        "press (9) to iuse the bomb & escape.",
-                        ""
-                    };
-                    player->remove_last_item_from_backpack();
-                    items_removed--;
-                }
+            if(bomb_removed == true) {
+                // I don't know why. Using .pop_back() & .push_back()
+                // resulted in segmentation faults
+                this->message.clear();
+                this->message = std::vector<std::string> {
+                    "You have unlocked the door.",
+                    "",
+                    "Press (1) to escape, or",
+                    "press (9) to iuse the bomb & escape.",
+                    ""
+                };
             }
-            set_escaped_true();
-            player->set_escaped_collision_false();
-            player->remove_last_item_from_backpack();
-            items_removed--;
         }
+        set_escaped_true();
+        player->set_escaped_collision_false();        
     }
 }
 
